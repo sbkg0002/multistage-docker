@@ -1,0 +1,13 @@
+# Create the image 'base'
+FROM alpine:latest AS base
+RUN apk --no-cache add terraform
+RUN apk --no-cache add py2-pip &&\
+    pip install awscli
+
+# Tests
+FROM base AS tests
+RUN terraform --version
+RUN aws help
+
+# Save only the image
+FROM base
